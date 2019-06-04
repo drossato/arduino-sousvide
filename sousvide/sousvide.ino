@@ -119,12 +119,14 @@ class FSM_Sensor
     if ((unsigned long)(currentMillis - previousMillis) >= samplingPeriod/sampleMeanSize)
     {
       previousMillis = currentMillis;
-      presentCycle++;
       sensors->requestTemperatures();
       float tempC = sensors->getTempCByIndex(0);
       if(tempC>0) //invalid reading
+      {
         lastValidSample = tempC;
-      accumulator+= lastValidSample;
+        accumulator+= lastValidSample;
+        presentCycle++;
+      }
     }
     if(presentCycle>=sampleMeanSize)
     {
@@ -189,13 +191,12 @@ void setup(void)
 {
   Serial.begin(2000000);
   sensor.begin();
-  //relayOff();
 }
 
 void loop(void)
 {    
     sensor.update();
-    pid.update(60, sensor.getMeasure());
+    pid.update(0, sensor.getMeasure());
     relay.update();
     logger.update(sensor.getMeasure(), relay.getDutyCycle());     
 }
