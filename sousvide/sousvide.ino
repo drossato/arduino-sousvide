@@ -7,175 +7,196 @@
 
 class PWM_Relay
 {
-  float period = 10000;
-  unsigned long previousMillis = 0;
-  float dutyCycle = 0; // 0 to 1
-  int relayPin;
+    float period = 10000;
+    unsigned long previousMillis = 0;
+    float dutyCycle = 0; // 0 to 1
+    int relayPin;
 
-  int relayState = 0;
-  void relayOn()
-  {
-    relayState = 1;
-    digitalWrite(relayPin,LOW);
-  }
-  
-  void relayOff()
-  {
-    relayState = 0;
-    digitalWrite(relayPin,HIGH);
-  }
+    int relayState = 0;
+    void relayOn()
+    {
+      relayState = 1;
+      digitalWrite(relayPin, LOW);
+    }
+
+    void relayOff()
+    {
+      relayState = 0;
+      digitalWrite(relayPin, HIGH);
+    }
 
   public:
-  PWM_Relay(int pin)
-  {
-    relayPin = pin;
-    pinMode(relayPin, OUTPUT);
-  }
-  void setDutyCycle(float duty)
-  {
-    dutyCycle = duty > 1 ? 1 : duty < 0 ? 0 : duty;
-  }
+    PWM_Relay(int pin)
+    {
+      relayPin = pin;
+      pinMode(relayPin, OUTPUT);
+    }
+    
+    void turnOff()
+    {
+      relayOff();
+      setDutyCycle(0);
+    }
+    
+    void setDutyCycle(float duty)
+    {
+      dutyCycle = duty > 1 ? 1 : duty < 0 ? 0 : duty;
+    }
 
-  float getDutyCycle()
-  {
-    return dutyCycle;
-  }
- 
-  void update()
-  {
-    unsigned long currentMillis = millis();
-    if ((unsigned long)(currentMillis - previousMillis) >= period)
-      previousMillis = currentMillis;
-    if(currentMillis - previousMillis<period*dutyCycle)
-      relayOn();
-    else
-      relayOff();    
-  }
+    float getDutyCycle()
+    {
+      return dutyCycle;
+    }
+
+    void update()
+    {
+      unsigned long currentMillis = millis();
+      if ((unsigned long)(currentMillis - previousMillis) >= period)
+        previousMillis = currentMillis;
+      if (currentMillis - previousMillis < period * dutyCycle)
+        relayOn();
+      else
+        relayOff();
+    }
 };
 
 class PID_Relay
 {
-  float period = 30000;
-  unsigned long previousMillis = 0;
-  PWM_Relay *pwm;
+    float period = 30000;
+    unsigned long previousMillis = 0;
+    PWM_Relay *pwm;
 
-  float kp = 0.5, ki=0.2, kd=0;
-  float lastError = 0, intError = 0, difError = 0;
-  float output=0;
+    float kp = 0.5, ki = 0.2, kd = 0;
+    float lastError = 0, intError = 0, difError = 0;
+    float output = 0;
 
-  
+
   public:
 
-  PID_Relay(PWM_Relay *p)
-  {
-    pwm = p;
-  }
-  
-  void update(float setPoint, float temperature)
-  {
-    unsigned long currentMillis = millis();
-    if ((unsigned long)(currentMillis - previousMillis) >= period)
+    PID_Relay(PWM_Relay *p)
     {
-      previousMillis = currentMillis;
-      float error = setPoint - temperature;
-      intError += error;
-      intError = constrain(intError, -1.0, 1.0); //prevent wind-up
-      difError = error - lastError;
-      
-      output = kp*error + ki*intError + kd*difError;
-      pwm->setDutyCycle(output);
-      
-      lastError = error;       
+      pwm = p;
     }
-  }
+
+    void update(float setPoint, float temperature)
+    {
+      unsigned long currentMillis = millis();
+      if (previousMillis==0 || (unsigned long)(currentMillis - previousMillis) >= period)
+      {
+        previousMillis = currentMillis;
+        float error = setPoint - temperature;
+        intError += error;
+        intError = constrain(intError, -1.0, 1.0); //prevent wind-up
+        difError = error - lastError;
+
+        output = kp * error + ki * intError + kd * difError;
+        pwm->setDutyCycle(output);
+
+        lastError = error;
+
+      }
+    }
 };
 
 class FSM_Sensor
 {
-  float samplingPeriod = 1000;
-  int sampleMeanSize = 20;
-  
-  int presentCycle = 0;
-  float accumulator = 0;
-  unsigned long previousMillis = 0;
-  float lastValidSample = 0;
-  float presentMeasure = 0;
-  DallasTemperature *sensors;  
-  
-  public:
-  FSM_Sensor(DallasTemperature *s)
-  {
-    sensors = s;
-  }
-  void begin()
-  {
-    sensors->begin();
-    presentMeasure = sensors->getTempCByIndex(0);
-  }
+    float samplingPeriod = 1000;
+    int sampleMeanSize = 20;
 
-  void update()
-  {
-    unsigned long currentMillis = millis();
-    if ((unsigned long)(currentMillis - previousMillis) >= samplingPeriod/sampleMeanSize)
+    int presentCycle = 0;
+    float accumulator = 0;
+    unsigned long previousMillis = 0;
+    float lastValidSample = 0;
+    float presentMeasure = 0;
+    int lostMeasurements = 0;
+    bool sensorOK = false;
+    DallasTemperature *sensors;
+
+  public:
+    FSM_Sensor(DallasTemperature *s)
     {
-      previousMillis = currentMillis;
-      sensors->requestTemperatures();
-      float tempC = sensors->getTempCByIndex(0);
-      if(tempC>0) //invalid reading
+      sensors = s;
+    }
+    void begin()
+    {
+      sensors->begin();
+      presentMeasure = sensors->getTempCByIndex(0);
+    }
+
+    void update()
+    {
+      unsigned long currentMillis = millis();
+      if ((unsigned long)(currentMillis - previousMillis) >= samplingPeriod / sampleMeanSize)
       {
-        lastValidSample = tempC;
-        accumulator+= lastValidSample;
+        previousMillis = currentMillis;
         presentCycle++;
+        sensors->requestTemperatures();
+        float tempC = sensors->getTempCByIndex(0);
+        if (tempC > 0) //invalid reading
+          lastValidSample = tempC;
+        else
+          lostMeasurements++;
+        accumulator += lastValidSample;
+        if (lostMeasurements > sampleMeanSize / 4)
+          sensorOK = false;
+      }
+      
+      if (presentCycle >= sampleMeanSize)
+      {
+        if (lostMeasurements < sampleMeanSize / 2)
+          sensorOK = true;
+        presentMeasure = accumulator / presentCycle;
+        presentCycle = 0;
+        accumulator = 0;
+        lostMeasurements = 0;
       }
     }
-    if(presentCycle>=sampleMeanSize)
+
+    float getMeasure()
     {
-      presentMeasure = accumulator/presentCycle;
-      presentCycle = 0;
-      accumulator = 0;
+      return presentMeasure;
     }
-  }
 
-  float getMeasure()
-  {
-    return presentMeasure;
-  }
+    bool isMeasuring()  //if have initial measurement and is still connected
+    {
+      return sensorOK;
+    }
 
-  void setSamplingPeriod(float period)
-  {
-    samplingPeriod = period;
-  }
+    void setSamplingPeriod(float period)
+    {
+      samplingPeriod = period;
+    }
 
-  void setSampleMeanSize(int _size)
-  {
-    sampleMeanSize = _size;
-  }
+    void setSampleMeanSize(int _size)
+    {
+      sampleMeanSize = _size;
+    }
 };
 
 class FSM_Logger
 {
-  unsigned long previousMillis = 0;
-  int loggingPeriod = 1000;
-  
-  public:
-  FSM_Logger(int _loggingPeriod)
-  {
-    loggingPeriod = _loggingPeriod;
-  }
+    unsigned long previousMillis = 0;
+    int loggingPeriod = 1000;
 
-  void update(float temp, float dutyCycle)
-  {
-    unsigned long currentMillis = millis();
-    if ((unsigned long)(currentMillis - previousMillis) >= loggingPeriod)
+  public:
+    FSM_Logger(int _loggingPeriod)
     {
-      previousMillis = currentMillis;
-      Serial.print(temp);
-      Serial.print(",");
-      Serial.print(dutyCycle);
-      Serial.print(";");
-      Serial.println("");
+      loggingPeriod = _loggingPeriod;
     }
-  }
+
+    void update(float temp, float dutyCycle)
+    {
+      unsigned long currentMillis = millis();
+      if ((unsigned long)(currentMillis - previousMillis) >= loggingPeriod)
+      {
+        previousMillis = currentMillis;
+        Serial.print(temp);
+        Serial.print(",");
+        Serial.print(dutyCycle);
+        Serial.print(";");
+        Serial.println("");
+      }
+    }
 };
 
 
@@ -194,9 +215,14 @@ void setup(void)
 }
 
 void loop(void)
-{    
-    sensor.update();
-    pid.update(0, sensor.getMeasure());
+{
+  sensor.update();
+  if(sensor.isMeasuring())
+  {
+    pid.update(63, sensor.getMeasure());
     relay.update();
-    logger.update(sensor.getMeasure(), relay.getDutyCycle());     
+  }
+  else
+    relay.turnOff();
+  logger.update(sensor.getMeasure(), relay.getDutyCycle());
 }
