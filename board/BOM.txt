@@ -1,0 +1,25 @@
+conectores:
+2x parafuso 2 pontos
+2x parafuso 3 pontos
+2x branquinho 2 pontos (macho e femea)
+2x branquinho 3 pontos (macho e femea)
+4x barra de pinos fêmea 16 pinos
+2x barra de pinos fêmea 6 pinos
+2x p2 stereo macho e femea
+2x plugue femea pra cabo de força
+
+potencia:
+2x porta fusível
+2x fusível 10A
+2x relé 5V/15A
+
+semicondutores:
+1x cartela diodo 1n4148
+1x cartela bc548 
+
+resistores:
+2x cartela 4k7
+1x cartela 47k
+
+fios:
+2m fio colorido 8 vias
