@@ -23,3 +23,6 @@ resistores:
 
 fios:
 2m fio colorido 8 vias
+
+placa:
+2x 10x7

@@ -6123,9 +6123,9 @@ Grid 5.00 mm&lt;p&gt;
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="53.34" y1="2.54" x2="83.82" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="2.54" x2="83.82" y2="33.02" width="0.1524" layer="91"/>
-<pinref part="NANO" gate="G$1" pin="27"/>
-<wire x1="74.93" y1="33.02" x2="83.82" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="2.54" x2="83.82" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="NANO" gate="G$1" pin="24"/>
+<wire x1="74.93" y1="25.4" x2="83.82" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -6167,8 +6167,6 @@ Grid 5.00 mm&lt;p&gt;
 </sheet>
 </sheets>
 <errors>
-<approved hash="113,1,43.8573,69.5604,HEATER,,,,,"/>
-<approved hash="113,1,12.0227,91.7296,OUTLET,,,,,"/>
 <approved hash="113,1,54.0173,88.6104,TO_USB,,,,,"/>
 <approved hash="113,1,83.2273,87.3404,5V,,,,,"/>
 <approved hash="113,1,67.31,27.9629,NANO,,,,,"/>

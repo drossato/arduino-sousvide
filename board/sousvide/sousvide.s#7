@@ -6132,9 +6132,9 @@ Grid 5.00 mm&lt;p&gt;
 <segment>
 <pinref part="HC05" gate="G$1" pin="4"/>
 <wire x1="83.82" y1="-10.16" x2="81.28" y2="-10.16" width="0.1524" layer="91"/>
-<wire x1="81.28" y1="35.56" x2="81.28" y2="-10.16" width="0.1524" layer="91"/>
-<pinref part="NANO" gate="G$1" pin="28"/>
-<wire x1="74.93" y1="35.56" x2="81.28" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="20.32" x2="81.28" y2="-10.16" width="0.1524" layer="91"/>
+<pinref part="NANO" gate="G$1" pin="22"/>
+<wire x1="74.93" y1="20.32" x2="81.28" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$11" class="1">
