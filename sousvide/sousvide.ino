@@ -1,9 +1,12 @@
 // Include the libraries we need
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <SoftwareSerial.h>
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS A1
 #define RELAY_CONTROL 3
+#define BT_RX A3
+#define BT_TX A2
 
 class PWM_Relay
 {
@@ -206,12 +209,15 @@ FSM_Sensor sensor(&sensors);
 FSM_Logger logger(1000);
 PWM_Relay relay(RELAY_CONTROL);
 PID_Relay pid(&relay);
+SoftwareSerial bluetooth(BT_TX, BT_RX);
+int setpoint = 0;
 
 
 void setup(void)
 {
   Serial.begin(2000000);
   sensor.begin();
+  bluetooth.begin(9600);
 }
 
 void loop(void)
@@ -219,10 +225,24 @@ void loop(void)
   sensor.update();
   if(sensor.isMeasuring())
   {
-    pid.update(63, sensor.getMeasure());
+    pid.update(setpoint, sensor.getMeasure());
     relay.update();
   }
   else
     relay.turnOff();
   logger.update(sensor.getMeasure(), relay.getDutyCycle());
+
+
+  if (bluetooth.available()) {
+    String s = bluetooth.readString();
+    Serial.println(s); //Print the byte to hardware serial
+    if(s[0]=='S')
+    {
+      setpoint = s.substring(1).toInt();
+    }
+    Serial.println(setpoint/2);
+  }
+
+
+  
 }
