@@ -663,88 +663,6 @@
 </deviceset>
 </devicesets>
 </library>
-<library name="transistor-npn" urn="urn:adsk.eagle:library:398">
-<description>&lt;b&gt;NPN Transistors&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="TO92-EBC" urn="urn:adsk.eagle:footprint:28938/1" library_version="3">
-<description>&lt;b&gt;TO-92&lt;/b&gt;&lt;p&gt;
- grid 5.08 mm</description>
-<wire x1="-2.095" y1="-2.921" x2="2.095" y2="-2.921" width="0.127" layer="21"/>
-<wire x1="-2.413" y1="-0.1341" x2="2.413" y2="-0.1341" width="0.127" layer="21" curve="-129.583"/>
-<wire x1="1.136" y1="-1.397" x2="-1.136" y2="-1.397" width="0.127" layer="51"/>
-<wire x1="-2.413" y1="-0.1341" x2="-2.664" y2="-1.397" width="0.127" layer="51" curve="27.9376"/>
-<wire x1="-2.664" y1="-1.397" x2="-2.413" y2="-2.4059" width="0.127" layer="51" curve="22.4788"/>
-<wire x1="-1.404" y1="-1.397" x2="-2.664" y2="-1.397" width="0.127" layer="51"/>
-<wire x1="-2.4135" y1="-2.4059" x2="-2.095" y2="-2.921" width="0.127" layer="21" curve="13.0385"/>
-<wire x1="-1.136" y1="-1.397" x2="-1.404" y2="-1.397" width="0.127" layer="21"/>
-<wire x1="2.413" y1="-2.4059" x2="2.664" y2="-1.397" width="0.127" layer="51" curve="22.4788"/>
-<wire x1="2.664" y1="-1.397" x2="2.413" y2="-0.1341" width="0.127" layer="51" curve="27.9376"/>
-<wire x1="2.664" y1="-1.397" x2="1.404" y2="-1.397" width="0.127" layer="51"/>
-<wire x1="1.404" y1="-1.397" x2="1.136" y2="-1.397" width="0.127" layer="21"/>
-<wire x1="2.095" y1="-2.921" x2="2.4247" y2="-2.3818" width="0.127" layer="21" curve="13.6094"/>
-<pad name="C" x="-2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
-<pad name="E" x="2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
-<pad name="B" x="0" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
-<text x="-2.54" y="1.778" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-4.572" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-</packages>
-<packages3d>
-<package3d name="TO92-EBC" urn="urn:adsk.eagle:package:28989/2" type="model" library_version="3">
-<description>TO-92
- grid 5.08 mm</description>
-<packageinstances>
-<packageinstance name="TO92-EBC"/>
-</packageinstances>
-</package3d>
-</packages3d>
-<symbols>
-<symbol name="NPN" urn="urn:adsk.eagle:symbol:28915/1" library_version="3">
-<wire x1="2.54" y1="2.54" x2="0.508" y2="1.524" width="0.1524" layer="94"/>
-<wire x1="1.778" y1="-1.524" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-2.54" x2="1.778" y2="-1.524" width="0.1524" layer="94"/>
-<wire x1="1.54" y1="-2.04" x2="0.308" y2="-1.424" width="0.1524" layer="94"/>
-<wire x1="1.524" y1="-2.413" x2="2.286" y2="-2.413" width="0.254" layer="94"/>
-<wire x1="2.286" y1="-2.413" x2="1.778" y2="-1.778" width="0.254" layer="94"/>
-<wire x1="1.778" y1="-1.778" x2="1.524" y2="-2.286" width="0.254" layer="94"/>
-<wire x1="1.524" y1="-2.286" x2="1.905" y2="-2.286" width="0.254" layer="94"/>
-<wire x1="1.905" y1="-2.286" x2="1.778" y2="-2.032" width="0.254" layer="94"/>
-<text x="-10.16" y="7.62" size="1.778" layer="95">&gt;NAME</text>
-<text x="-10.16" y="5.08" size="1.778" layer="96">&gt;VALUE</text>
-<rectangle x1="-0.254" y1="-2.54" x2="0.508" y2="2.54" layer="94"/>
-<pin name="B" x="-2.54" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
-<pin name="E" x="2.54" y="-5.08" visible="off" length="short" direction="pas" swaplevel="3" rot="R90"/>
-<pin name="C" x="2.54" y="5.08" visible="off" length="short" direction="pas" swaplevel="2" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="BC548*" urn="urn:adsk.eagle:component:29116/2" prefix="Q" library_version="3">
-<description>&lt;b&gt;NPN Transistor&lt;/b&gt;</description>
-<gates>
-<gate name="G$1" symbol="NPN" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="TO92-EBC">
-<connects>
-<connect gate="G$1" pin="B" pad="B"/>
-<connect gate="G$1" pin="C" pad="C"/>
-<connect gate="G$1" pin="E" pad="E"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:28989/2"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-<technology name="A"/>
-<technology name="B"/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="rcl" urn="urn:adsk.eagle:library:334">
 <description>&lt;b&gt;Resistors, Capacitors, Inductors&lt;/b&gt;&lt;p&gt;
 Based on the previous libraries:
@@ -7477,6 +7395,87 @@ Grid 5.00 mm&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
+<library name="transistor-pnp" urn="urn:adsk.eagle:library:399">
+<description>&lt;b&gt;PNP Transistors&lt;/b&gt;&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="TO92-EBC" urn="urn:adsk.eagle:footprint:29181/1" library_version="4">
+<description>&lt;b&gt;TO-92&lt;/b&gt;&lt;p&gt;
+grid 5.08 mm</description>
+<wire x1="-2.095" y1="-2.921" x2="2.095" y2="-2.921" width="0.127" layer="21"/>
+<wire x1="-2.413" y1="-0.1341" x2="2.413" y2="-0.1341" width="0.127" layer="21" curve="-129.583"/>
+<wire x1="1.136" y1="-1.397" x2="-1.136" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="-2.413" y1="-0.1341" x2="-2.413" y2="-2.4059" width="0.127" layer="51" curve="50.4167"/>
+<wire x1="-1.404" y1="-1.397" x2="-2.664" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="-2.4135" y1="-2.4059" x2="-2.095" y2="-2.921" width="0.127" layer="21" curve="13.0385"/>
+<wire x1="-1.136" y1="-1.397" x2="-1.404" y2="-1.397" width="0.127" layer="21"/>
+<wire x1="2.413" y1="-2.4059" x2="2.413" y2="-0.1341" width="0.127" layer="51" curve="50.4167"/>
+<wire x1="2.664" y1="-1.397" x2="1.404" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="1.404" y1="-1.397" x2="1.136" y2="-1.397" width="0.127" layer="21"/>
+<wire x1="2.095" y1="-2.921" x2="2.4247" y2="-2.3818" width="0.127" layer="21" curve="13.6094"/>
+<pad name="C" x="-2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<pad name="E" x="2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<pad name="B" x="0" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<text x="-2.54" y="1.778" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-4.572" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
+</packages>
+<packages3d>
+<package3d name="TO92-EBC" urn="urn:adsk.eagle:package:29218/2" type="model" library_version="4">
+<description>TO-92
+grid 5.08 mm</description>
+<packageinstances>
+<packageinstance name="TO92-EBC"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="PNP" urn="urn:adsk.eagle:symbol:29169/1" library_version="4">
+<wire x1="2.086" y1="1.678" x2="1.578" y2="2.594" width="0.1524" layer="94"/>
+<wire x1="1.578" y1="2.594" x2="0.516" y2="1.478" width="0.1524" layer="94"/>
+<wire x1="0.516" y1="1.478" x2="2.086" y2="1.678" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="1.808" y2="2.124" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="-2.54" x2="0.508" y2="-1.524" width="0.1524" layer="94"/>
+<wire x1="1.905" y1="1.778" x2="1.524" y2="2.413" width="0.254" layer="94"/>
+<wire x1="1.524" y1="2.413" x2="0.762" y2="1.651" width="0.254" layer="94"/>
+<wire x1="0.762" y1="1.651" x2="1.778" y2="1.778" width="0.254" layer="94"/>
+<wire x1="1.778" y1="1.778" x2="1.524" y2="2.159" width="0.254" layer="94"/>
+<wire x1="1.524" y1="2.159" x2="1.143" y2="1.905" width="0.254" layer="94"/>
+<wire x1="1.143" y1="1.905" x2="1.524" y2="1.905" width="0.254" layer="94"/>
+<text x="-10.16" y="7.62" size="1.778" layer="95">&gt;NAME</text>
+<text x="-10.16" y="5.08" size="1.778" layer="96">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-2.54" x2="0.508" y2="2.54" layer="94"/>
+<pin name="B" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
+<pin name="E" x="2.54" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
+<pin name="C" x="2.54" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="BC558*" urn="urn:adsk.eagle:component:29335/2" prefix="Q" library_version="4">
+<description>&lt;b&gt;PNP Transistror&lt;/b&gt;</description>
+<gates>
+<gate name="G$1" symbol="PNP" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TO92-EBC">
+<connects>
+<connect gate="G$1" pin="B" pad="B"/>
+<connect gate="G$1" pin="C" pad="C"/>
+<connect gate="G$1" pin="E" pad="E"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:29218/2"/>
+</package3dinstances>
+<technologies>
+<technology name="A"/>
+<technology name="B"/>
+<technology name="C"/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -7499,8 +7498,8 @@ Grid 5.00 mm&lt;p&gt;
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="NANO" library="ic-package" library_urn="urn:adsk.eagle:library:239" deviceset="DIL32" device="" package3d_urn="urn:adsk.eagle:package:18076/2"/>
 <part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
-<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="47k"/>
-<part name="Q1" library="transistor-npn" library_urn="urn:adsk.eagle:library:398" deviceset="BC548*" device="" package3d_urn="urn:adsk.eagle:package:28989/2"/>
+<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="4k7"/>
+<part name="Q1" library="transistor-pnp" library_urn="urn:adsk.eagle:library:399" deviceset="BC558*" device="" package3d_urn="urn:adsk.eagle:package:29218/2" technology="C"/>
 <part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-10" package3d_urn="urn:adsk.eagle:package:43344/2" value="1N4148DO35-10"/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="DS18B20" library="con-amp-quick" library_urn="urn:adsk.eagle:library:125" deviceset="M03" device="" package3d_urn="urn:adsk.eagle:package:5957/1"/>
@@ -7705,7 +7704,7 @@ Grid 5.00 mm&lt;p&gt;
 <wire x1="77.47" y1="87.63" x2="77.47" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="Q1" gate="G$1" pin="E"/>
+<pinref part="Q1" gate="G$1" pin="C"/>
 <pinref part="GND2" gate="1" pin="GND"/>
 <wire x1="7.62" y1="-35.56" x2="7.62" y2="-30.48" width="0.1524" layer="91"/>
 </segment>
@@ -7757,7 +7756,7 @@ Grid 5.00 mm&lt;p&gt;
 </net>
 <net name="N$6" class="0">
 <segment>
-<pinref part="Q1" gate="G$1" pin="C"/>
+<pinref part="Q1" gate="G$1" pin="E"/>
 <pinref part="K1" gate="1" pin="2"/>
 <wire x1="7.62" y1="-15.24" x2="7.62" y2="-17.78" width="0.1524" layer="91"/>
 <pinref part="D1" gate="G$1" pin="A"/>

@@ -1928,7 +1928,7 @@ design rules under a new name.</description>
 <param name="layerSetup" value="(1*16)"/>
 <param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
 <param name="mtIsolate" value="1.5mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
-<param name="mdWireWire" value="20mil"/>
+<param name="mdWireWire" value="16mil"/>
 <param name="mdWirePad" value="20mil"/>
 <param name="mdWireVia" value="20mil"/>
 <param name="mdPadPad" value="20mil"/>
@@ -2196,24 +2196,22 @@ design rules under a new name.</description>
 <contactref element="TO_USB" pad="1"/>
 <contactref element="OUTLET" pad="1"/>
 <wire x1="30.226" y1="65.786" x2="30.48" y2="66.04" width="1.27" layer="16"/>
-<wire x1="16.51" y1="61" x2="21.296" y2="65.786" width="1.27" layer="16"/>
 <wire x1="21.296" y1="65.786" x2="30.226" y2="65.786" width="1.27" layer="16"/>
 <contactref element="F1" pad="2"/>
-<wire x1="16.51" y1="61" x2="16.51" y2="60.325" width="3.81" layer="16"/>
-<wire x1="16.51" y1="60.325" x2="16.51" y2="54.4322" width="4.572" layer="16"/>
+<wire x1="16.51" y1="61" x2="16.51" y2="54.4322" width="4.572" layer="16"/>
+<wire x1="16.51" y1="61" x2="21.296" y2="65.786" width="1.27" layer="16"/>
 </signal>
 <signal name="N$2">
 <contactref element="TO_USB" pad="2"/>
 <contactref element="K1" pad="P"/>
 <contactref element="OUTLET" pad="2"/>
-<wire x1="34.29" y1="71.12" x2="36.83" y2="68.58" width="4.572" layer="16"/>
-<wire x1="36.83" y1="52.705" x2="36.83" y2="63.5" width="4.572" layer="16"/>
-<wire x1="36.83" y1="63.5" x2="36.83" y2="68.58" width="4.572" layer="16"/>
-<wire x1="34.29" y1="71.12" x2="19.05" y2="71.12" width="4.572" layer="16"/>
+<wire x1="36.83" y1="68.58" x2="36.83" y2="63.5" width="4.572" layer="16"/>
+<wire x1="36.83" y1="63.5" x2="36.83" y2="52.705" width="4.572" layer="16"/>
+<wire x1="36.83" y1="68.58" x2="33.411" y2="71.999" width="4.572" layer="16"/>
+<wire x1="33.411" y1="71.999" x2="19.929" y2="71.999" width="4.572" layer="16"/>
+<wire x1="19.929" y1="71.999" x2="16.51" y2="68.58" width="4.572" layer="16"/>
+<wire x1="16.51" y1="68.58" x2="16.51" y2="66" width="4.572" layer="16"/>
 <wire x1="30.48" y1="63.5" x2="36.83" y2="63.5" width="1.27" layer="16"/>
-<wire x1="16.51" y1="66.675" x2="16.51" y2="66" width="3.81" layer="16"/>
-<wire x1="19.05" y1="71.12" x2="16.51" y2="68.58" width="4.572" layer="16"/>
-<wire x1="16.51" y1="68.58" x2="16.51" y2="66.675" width="4.572" layer="16"/>
 </signal>
 <signal name="+5V">
 <contactref element="5V" pad="1"/>
@@ -2258,7 +2256,7 @@ design rules under a new name.</description>
 <wire x1="81.28" y1="40.64" x2="75.4634" y2="46.4566" width="1.27" layer="16"/>
 <wire x1="75.4634" y1="46.4566" x2="75.45300625" y2="46.4566" width="1.27" layer="16"/>
 <wire x1="75.45300625" y1="46.4566" x2="73.66" y2="48.24960625" width="1.27" layer="16"/>
-<wire x1="73.66" y1="48.24960625" x2="73.66" y2="50.8" width="1.27" layer="16"/>
+<wire x1="73.66" y1="50.8" x2="73.66" y2="48.24960625" width="1.27" layer="16"/>
 <wire x1="73.66" y1="50.8" x2="71.12" y2="53.34" width="1.27" layer="16"/>
 <wire x1="71.12" y1="53.34" x2="69.85" y2="53.34" width="1.27" layer="16"/>
 <wire x1="81.28" y1="40.64" x2="81.28" y2="33.02" width="1.27" layer="16"/>
@@ -2344,16 +2342,14 @@ design rules under a new name.</description>
 <signal name="RELAYNC" class="1">
 <contactref element="K1" pad="O"/>
 <contactref element="HEATER" pad="3"/>
-<wire x1="42.799" y1="27.559" x2="42.545" y2="27.305" width="4.572" layer="16"/>
-<wire x1="42.799" y1="38.481" x2="42.799" y2="27.559" width="4.572" layer="16"/>
-<wire x1="41.83" y1="25.38" x2="42.545" y2="27.305" width="0" layer="19" extent="16-16"/>
+<wire x1="41.83" y1="25.38" x2="42.799" y2="26.349" width="4.572" layer="16"/>
+<wire x1="42.799" y1="26.349" x2="42.799" y2="38.481" width="4.572" layer="16"/>
 </signal>
 <signal name="RELAYNA" class="1">
 <contactref element="HEATER" pad="1"/>
 <contactref element="K1" pad="S"/>
-<wire x1="30.861" y1="38.481" x2="30.861" y2="27.559" width="4.572" layer="16"/>
-<wire x1="30.861" y1="27.559" x2="31.115" y2="27.305" width="4.572" layer="16"/>
-<wire x1="31.83" y1="25.38" x2="31.115" y2="27.305" width="0" layer="19" extent="16-16"/>
+<wire x1="31.83" y1="25.38" x2="30.861" y2="26.349" width="4.572" layer="16"/>
+<wire x1="30.861" y1="26.349" x2="30.861" y2="38.481" width="4.572" layer="16"/>
 </signal>
 <signal name="N$8" class="1">
 <contactref element="HEATER" pad="2"/>
