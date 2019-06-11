@@ -211,6 +211,7 @@ PWM_Relay relay(RELAY_CONTROL);
 PID_Relay pid(&relay);
 SoftwareSerial bluetooth(BT_TX, BT_RX);
 int setpoint = 0;
+bool turnedOn = false;
 
 
 void setup(void)
@@ -223,7 +224,7 @@ void setup(void)
 void loop(void)
 {
   sensor.update();
-  if(sensor.isMeasuring())
+  if(sensor.isMeasuring() && turnedOn)
   {
     pid.update(setpoint, sensor.getMeasure());
     relay.update();
@@ -232,17 +233,31 @@ void loop(void)
     relay.turnOff();
   logger.update(sensor.getMeasure(), relay.getDutyCycle());
 
-
   if (bluetooth.available()) {
     String s = bluetooth.readString();
-    Serial.println(s); //Print the byte to hardware serial
     if(s[0]=='S')
     {
       setpoint = s.substring(1).toInt();
+      bluetooth.println("S-OK");
     }
-    Serial.println(setpoint/2);
-  }
-
-
-  
+    if(s[0]=='L')
+    {
+      turnedOn = true;
+      digitalWrite(3, LOW);
+      bluetooth.println("L-OK");
+    }
+    if(s[0]=='D')
+    {
+      turnedOn = false;
+      digitalWrite(3, HIGH);
+      bluetooth.println("D-OK");
+    }
+    if(s[0]=='T')
+    {
+      if(sensor.isMeasuring())
+        bluetooth.println(sensor.getMeasure());
+      else
+        bluetooth.println("FAIL");
+    }
+  }  
 }

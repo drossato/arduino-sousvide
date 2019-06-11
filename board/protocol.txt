@@ -1,0 +1,15 @@
+Sous Vide Bluetooth Protocol:
+
+Commands:
+	Set temperature:
+		String: "Sxx", where x is the temperature
+		Answer: "S-OK"
+	Turn On:
+		String: "L"
+		Answer: "L-OK"
+	Turn Off:
+		String: "D"
+		Answer: "D-OK"
+	GetTemp:
+		String: "T"
+		Answer: "xx", where x is the temperature, or "FAIL" if sensor is disconnected
