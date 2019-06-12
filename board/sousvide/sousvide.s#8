@@ -6075,9 +6075,9 @@ Grid 5.00 mm&lt;p&gt;
 <wire x1="33.02" y1="25.4" x2="33.02" y2="58.42" width="0.1524" layer="91"/>
 <junction x="10.16" y="25.4"/>
 <wire x1="33.02" y1="58.42" x2="99.06" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="58.42" x2="99.06" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="NANO" gate="G$1" pin="23"/>
 <wire x1="74.93" y1="22.86" x2="99.06" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="22.86" x2="99.06" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
