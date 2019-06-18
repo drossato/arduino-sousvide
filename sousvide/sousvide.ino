@@ -243,13 +243,11 @@ void loop(void)
     if(s[0]=='L')
     {
       turnedOn = true;
-      digitalWrite(3, LOW);
       bluetooth.println("L-OK");
     }
     if(s[0]=='D')
     {
       turnedOn = false;
-      digitalWrite(3, HIGH);
       bluetooth.println("D-OK");
     }
     if(s[0]=='T')
