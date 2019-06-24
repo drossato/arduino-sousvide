@@ -70,8 +70,11 @@ class PID_Relay
     PWM_Relay *pwm;
 
     float kp = 0.5, ki = 0.2, kd = 0;
+    float kb = ki;
     float lastError = 0, intError = 0, difError = 0;
     float output = 0;
+
+    bool backCalcWindup = true;
 
 
   public:
@@ -88,9 +91,22 @@ class PID_Relay
       {
         previousMillis = currentMillis;
         float error = setPoint - temperature;
-        intError += error;
-        intError = constrain(intError, -1.0, 1.0); //prevent wind-up
         difError = error - lastError;
+        
+        
+        if(backCalcWindup) //back-calculation
+        {
+          intError += error + (kb/ki)*(constrain(output, 0.0, 1.0)-output); //intError will be multiplied by ki on the output calculation, not before integration
+        }
+        else //clamping
+        {
+          //intError = constrain(intError, -1.0/kp, 1.0/kp); //prevent wind-up
+          if(error>0 && output > 1.0)
+            intError += 0;
+          else
+            intError += error;          
+        }
+        
 
         output = kp * error + ki * intError + kd * difError;
         pwm->setDutyCycle(output);
