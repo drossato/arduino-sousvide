@@ -12,7 +12,7 @@ class PWM_Relay
 {
     float period = 10000;
     unsigned long previousMillis = 0;
-    float dutyCycle = 0; // 0 to 1
+    float dutyCycle = 0; // 0.0 to 1.0
     int relayPin;
 
     int relayState = 0;
@@ -43,7 +43,7 @@ class PWM_Relay
     
     void setDutyCycle(float duty)
     {
-      dutyCycle = duty > 1 ? 1 : duty < 0 ? 0 : duty;
+      dutyCycle = constrain(duty, 0.0, 1.0);
     }
 
     float getDutyCycle()
@@ -55,29 +55,40 @@ class PWM_Relay
     {
       unsigned long currentMillis = millis();
       if ((unsigned long)(currentMillis - previousMillis) >= period)
+      {
         previousMillis = currentMillis;
+      }
       if (currentMillis - previousMillis < period * dutyCycle)
+      {
         relayOn();
+      }
       else
+      {
         relayOff();
+      }
     }
 };
 
 class PID_Relay
 {
-    float period = 30000;
+    float period = 20000;
     unsigned long previousMillis = 0;
     PWM_Relay *pwm;
 
-    float kp = 0.5, ki = 0.2, kd = 0;
+    float kp = .7, ki = 0.1, kd = 0;
     float kb = ki;
     float lastError = 0, intError = 0, difError = 0;
     float output = 0;
 
-    bool backCalcWindup = true;
+    bool backCalcWindup = false;
 
 
   public:
+
+    float getIntegral()
+    {
+      return intError;
+    }
 
     PID_Relay(PWM_Relay *p)
     {
@@ -101,15 +112,26 @@ class PID_Relay
         else //clamping
         {
           //intError = constrain(intError, -1.0/kp, 1.0/kp); //prevent wind-up
-          if(error>0 && output > 1.0)
+          if(error>0 && kp * error + ki * intError + kd * difError > 1.0)
             intError += 0;
           else
             intError += error;          
-        }
-        
+        }        
 
         output = kp * error + ki * intError + kd * difError;
         pwm->setDutyCycle(output);
+
+        /*Serial.print(setPoint);
+        Serial.print(";");
+        Serial.print(temperature);
+        Serial.print(";");
+        Serial.print(error);
+        Serial.print(";");
+        Serial.print(intError);
+        Serial.print(";");
+        Serial.print(output);
+        Serial.print(";");
+        Serial.println("");*/
 
         lastError = error;
 
@@ -154,7 +176,10 @@ class FSM_Sensor
         if (tempC > 0) //invalid reading
           lastValidSample = tempC;
         else
+        {
           lostMeasurements++;
+          //Serial.println(tempC);
+        }
         accumulator += lastValidSample;
         if (lostMeasurements > sampleMeanSize / 4)
           sensorOK = false;
@@ -164,6 +189,8 @@ class FSM_Sensor
       {
         if (lostMeasurements < sampleMeanSize / 2)
           sensorOK = true;
+        else
+          sensorOK = false;
         presentMeasure = accumulator / presentCycle;
         presentCycle = 0;
         accumulator = 0;
@@ -246,7 +273,9 @@ void loop(void)
     relay.update();
   }
   else
+  {
     relay.turnOff();
+  }
   logger.update(sensor.getMeasure(), relay.getDutyCycle());
 
   if (bluetooth.available()) {
