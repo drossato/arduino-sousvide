@@ -142,7 +142,7 @@ class PID_Relay
 class FSM_Sensor
 {
     float samplingPeriod = 1000;
-    int sampleMeanSize = 20;
+    int sampleMeanSize = 1;
 
     int presentCycle = 0;
     float accumulator = 0;
@@ -173,7 +173,7 @@ class FSM_Sensor
         presentCycle++;
         sensors->requestTemperatures();
         float tempC = sensors->getTempCByIndex(0);
-        if (tempC > 0) //invalid reading
+        if (tempC > 0) //valid reading
           lastValidSample = tempC;
         else
         {
@@ -187,7 +187,7 @@ class FSM_Sensor
       
       if (presentCycle >= sampleMeanSize)
       {
-        if (lostMeasurements < sampleMeanSize / 2)
+        if (lostMeasurements <= sampleMeanSize / 2)
           sensorOK = true;
         else
           sensorOK = false;
@@ -256,7 +256,6 @@ SoftwareSerial bluetooth(BT_TX, BT_RX);
 int setpoint = 0;
 bool turnedOn = false;
 
-
 void setup(void)
 {
   Serial.begin(2000000);
@@ -301,6 +300,38 @@ void loop(void)
         bluetooth.println(sensor.getMeasure());
       else
         bluetooth.println("FAIL");
+    }
+    if(s[0]=='R')
+    {
+      bluetooth.println("-----------------------");
+      if(sensor.isMeasuring())
+      {
+        bluetooth.println("Sensor: OK");
+        bluetooth.print("Temperatura: ");
+        bluetooth.println(sensor.getMeasure());
+      }
+      else
+      {
+        bluetooth.println("Sensor: FAIL");
+      }
+
+      bluetooth.print("Setpoint: ");
+      bluetooth.println(setpoint);
+      bluetooth.print("Status: ");
+      if(turnedOn)
+        bluetooth.println("Ativado");
+      else
+        bluetooth.println("Desativado");
+      bluetooth.print("Tempo ligado: ");
+      bluetooth.print(millis()/60000);
+      bluetooth.print("m");
+      bluetooth.print((millis()%60000)/1000);
+      bluetooth.println("s");
+      bluetooth.print("PWM: ");
+      bluetooth.print(int(relay.getDutyCycle()*100));
+      bluetooth.println("%");
+      bluetooth.println("-----------------------");
+      
     }
   }  
 }
