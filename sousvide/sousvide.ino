@@ -2,11 +2,15 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+#include <EEPROM.h>
 
 #define ONE_WIRE_BUS A1
 #define RELAY_CONTROL 3
 #define BT_RX A3
 #define BT_TX A2
+
+#define SETPOINT_ADDR 0
+#define STATE_ADDR 1
 
 class PWM_Relay
 {
@@ -258,14 +262,35 @@ bool turnedOn = false;
 
 void setup(void)
 {
+  relay.turnOff();
   Serial.begin(2000000);
   sensor.begin();
   bluetooth.begin(9600);
+  sensor.update();
+  delay(5000);
+  sensor.update();
+  Serial.println(sensor.getMeasure());
+  if(sensor.getMeasure() >= 45.0)
+  {
+    setpoint = (int)EEPROM.read(SETPOINT_ADDR);
+    turnedOn = (bool)EEPROM.read(STATE_ADDR);
+    Serial.println(setpoint);
+    Serial.println(turnedOn);
+  }
 }
 
 void loop(void)
 {
   sensor.update();
+  if(millis()>60000 && setpoint == 0) //se está ligado ha mais de 1 minuto e nao foi ativado, provavelmente ocorreu reset nao intencional
+  {
+    if(sensor.getMeasure() >= 45.0)
+    {
+      setpoint = (int)EEPROM.read(SETPOINT_ADDR);
+      turnedOn = (bool)EEPROM.read(STATE_ADDR);
+  
+    }
+  }
   if(sensor.isMeasuring() && turnedOn)
   {
     pid.update(setpoint, sensor.getMeasure());
@@ -282,16 +307,19 @@ void loop(void)
     if(s[0]=='S')
     {
       setpoint = s.substring(1).toInt();
+      EEPROM.write(SETPOINT_ADDR, setpoint);
       bluetooth.println("S-OK");
     }
     if(s[0]=='L')
     {
       turnedOn = true;
+      EEPROM.write(STATE_ADDR, 1);
       bluetooth.println("L-OK");
     }
     if(s[0]=='D')
     {
       turnedOn = false;
+      EEPROM.write(STATE_ADDR, 0);
       bluetooth.println("D-OK");
     }
     if(s[0]=='T')
@@ -330,6 +358,10 @@ void loop(void)
       bluetooth.print("PWM: ");
       bluetooth.print(int(relay.getDutyCycle()*100));
       bluetooth.println("%");
+      bluetooth.print("Memoria: ");
+      bluetooth.print(EEPROM.read(SETPOINT_ADDR));
+      bluetooth.print(" ");
+      bluetooth.println(EEPROM.read(STATE_ADDR));
       bluetooth.println("-----------------------");
       
     }
