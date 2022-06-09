@@ -165,7 +165,11 @@ class FSM_Sensor
     void begin()
     {
       sensors->begin();
+      sensors->setResolution(10);
+      sensors->requestTemperatures();
       presentMeasure = sensors->getTempCByIndex(0);
+//      presentMeasure = sensors->getTempC(0);
+      
     }
 
     void update()
@@ -177,6 +181,7 @@ class FSM_Sensor
         presentCycle++;
         sensors->requestTemperatures();
         float tempC = sensors->getTempCByIndex(0);
+//        float tempC = sensors->getTempC(0);
         if (tempC > 0) //valid reading
           lastValidSample = tempC;
         else
